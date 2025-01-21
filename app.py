@@ -30,10 +30,14 @@ def create_app():
         app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
     from authentication.routes import authentication
-    from kareoke.routes import kareoke
+
 
     app.register_blueprint(authentication)
-    app.register_blueprint(kareoke)
+
+    @app.route("/", methods=["GET"])
+    def index():
+        return "flask backend up and running"
+
 
     @app.route("/init", methods=["POST"])
     def hello_init():
